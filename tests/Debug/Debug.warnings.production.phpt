@@ -22,14 +22,17 @@ Debug::$productionMode = TRUE;
 
 Debug::enable();
 
-mktime(); // E_STRICT
-mktime(0, 0, 0, 1, 23, 1978, 1); // E_DEPRECATED
-$x++; // E_NOTICE
-rename('..', '..'); // E_WARNING
-require 'E_COMPILE_WARNING.inc'; // E_COMPILE_WARNING
+try	{
+	$x++;
+	rename('..', '..');
+
+} catch (Exception $e) {
+	T::dump($e);
+}
 
 
 
 __halt_compiler() ?>
 
 ------EXPECT------
+Exception PhpException: rename(..,..): %a%

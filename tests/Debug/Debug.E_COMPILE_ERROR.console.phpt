@@ -42,7 +42,13 @@ function third($arg1)
 }
 
 
-first(10, 'any string');
+try	{
+	first(10, 'any string');
+
+} catch (Exception $e) {
+	T::dump($e);
+}
+
 
 
 
