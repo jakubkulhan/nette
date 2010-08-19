@@ -46,7 +46,7 @@ class ApcStorage implements ICacheStorage
 	 */
 	public static function isAvailable()
 	{
-		return extension_loaded('apc');
+		return extension_loaded('apc') && @apc_cache_info() !== FALSE;
 	}
 
 
