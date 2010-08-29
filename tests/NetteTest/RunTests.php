@@ -19,6 +19,7 @@ Options:
 	-l <path>   Specify path to shared library files (LD_LIBRARY_PATH)
 	-e <name>   Load php environment <name>
 	-s          Show information about skipped tests
+	-j <n>      Number of jobs to run
 
 <?php
 }
