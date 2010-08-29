@@ -20,7 +20,7 @@ require __DIR__ . '/../initialize.php';
 // Setup environment
 $_SERVER['HTTP_HOST'] = 'nette.org';
 
-$errorLog = __DIR__ . '/log/php_error.log';
+$errorLog = __DIR__ . '/log/warning/php_error.log';
 TestHelpers::purge(dirname($errorLog));
 
 Debug::$consoleMode = FALSE;
