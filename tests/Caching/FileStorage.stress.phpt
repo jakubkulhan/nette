@@ -16,6 +16,10 @@ use Nette\Caching\Cache;
 require __DIR__ . '/../initialize.php';
 
 
+// temporary directory
+define('TEMP_DIR', __DIR__ . '/' . rtrim(substr(basename(__FILE__), 0, -5), '0..9.') . '.tmp');
+Nette\Environment::setVariable('tempDir', TEMP_DIR);
+TestHelpers::purge(TEMP_DIR);
 
 // TODO: run it twice (or more) simultaneously</h1>
 set_time_limit(0);
@@ -40,7 +44,7 @@ function checkStr($s)
 define('COUNT_FILES', 3);
 
 
-$storage = new Nette\Caching\FileStorage(__DIR__ . '/tmp');
+$storage = new Nette\Caching\FileStorage(TEMP_DIR);
 
 
 // clear playground

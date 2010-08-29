@@ -18,8 +18,9 @@ require __DIR__ . '/../initialize.php';
 
 
 // temporary directory
-define('TEMP_DIR', __DIR__ . '/tmp');
+define('TEMP_DIR', __DIR__ . '/' . rtrim(substr(basename(__FILE__), 0, -5), '0..9.') . '.tmp');
 Nette\Environment::setVariable('tempDir', TEMP_DIR);
+TestHelpers::purge(TEMP_DIR);
 
 $storage = new Nette\Caching\FileStorage(TEMP_DIR);
 $cacheA = new Cache($storage);
