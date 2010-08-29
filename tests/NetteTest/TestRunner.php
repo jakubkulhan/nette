@@ -40,6 +40,17 @@ class TestRunner
 	/** @var int jobs count */
 	public $jobs = 1;
 
+	/** @var string */
+	public $workerFile;
+
+	/**
+	 * Inizializes instance
+	 */
+	public function __construct()
+	{
+		$this->workerFile = __DIR__ . DIRECTORY_SEPARATOR . 'Worker.php';
+	}
+
 	/**
 	 * Runs all tests.
 	 * @return void
@@ -73,14 +84,21 @@ class TestRunner
 		$files = new ArrayIterator($files);
 
 		// prepare workers
-		for ($i = 0; $i < $this->jobs; ++$i) {
-			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-				// FIXME: depends on PHP being in %Path
-				$cmd = 'php' . ' ' . escapeshellarg(__DIR__ . '\\Worker.php');
-			} else {
-				$cmd = 'exec ' . escapeshellarg($_SERVER['_']) . ' ' . escapeshellarg(__DIR__ . '/Worker.php');
-			}
+		if (isset($_SERVER['_'])) {
+			$cmd = escapeshellarg($_SERVER['_']);
+		} else {
+			// FIXME: depends on PHP being in $PATH/%Path
+			$cmd = 'php';
+		}
 
+		// FIXME: assumes only Windows shell does not understand exec
+		if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+			$cmd = 'exec ' . $cmd;
+		}
+
+		$cmd .= ' ' . escapeshellarg($this->workerFile);
+
+		for ($i = 0; $i < $this->jobs; ++$i) {
 			$proc = proc_open($cmd, array(
 				0 => array('pipe', 'r'),
 				1 => array('pipe', 'w'),
