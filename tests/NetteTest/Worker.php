@@ -12,6 +12,10 @@ for (;;) {
 		quit('stream_select() failed');
 	}
 
+	if ($changed < 1) {
+		continue;
+	}
+
 	if (strlen($data = fread(STDIN, 4)) !== 4) {
 		if (strlen($data) === 0 && feof(STDIN)) {
 			return 0;
