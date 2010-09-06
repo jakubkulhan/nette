@@ -101,7 +101,15 @@ class FileJournal extends Nette\Object implements ICacheJournal
 	 */
 	public function __construct($dir)
 	{
+		if (!is_dir($dir)) {
+			umask(0000);
+			if (!@mkdir($dir, 0777, TRUE)) { // intentionally @
+				throw new \InvalidStateException('Cannot create directory ' . $dir . '.');
+			}
+		}
+
 		$this->file = $dir . '/' . self::FILE;
+
 		$this->open();
 	}
 
